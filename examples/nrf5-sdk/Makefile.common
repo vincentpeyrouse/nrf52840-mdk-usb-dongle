@@ -10,6 +10,8 @@ UPPERCASE_SD_VERSION := $(shell echo $(SD_VERSION) | tr '[:lower:]' '[:upper:]')
 
 # C flags common to all targets
 CFLAGS += $(OPT)
+CFLAGS += -DAPP_TIMER_V2
+CFLAGS += -DAPP_TIMER_V2_RTC1_ENABLED
 CFLAGS += -DBOARD_CUSTOM
 #CFLAGS += -DCONFIG_GPIO_AS_PINRESET
 CFLAGS += -DFLOAT_ABI_HARD
@@ -41,6 +43,8 @@ ASMFLAGS += -g3
 ASMFLAGS += -mcpu=cortex-m4
 ASMFLAGS += -mthumb -mabi=aapcs
 ASMFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
+ASMFLAGS += -DAPP_TIMER_V2
+ASMFLAGS += -DAPP_TIMER_V2_RTC1_ENABLED
 ASMFLAGS += -DBOARD_CUSTOM
 #ASMFLAGS += -DCONFIG_GPIO_AS_PINRESET
 ASMFLAGS += -DFLOAT_ABI_HARD
@@ -120,7 +124,8 @@ MERGEHEX_TOOL   := $(PROJ_DIR)/../../../tools/mergehex/$(MERGEHEX_OS)/mergehex
 
 # NOTE: Consult 'nrfutil pkg generate --help' for the SD -> FWID mappings.
 # eg. s140_nrf52_6.0.0 -> 0xA9
-FWID = $(shell nrfutil pkg generate --help | awk -F '|' '/\|$(FULL_SD_VERSION)/ {print $$3}')
+# FWID = $(shell nrfutil pkg generate --help | awk -F '|' '/\|$(FULL_SD_VERSION)/ {print $$3}')
+FWID = 0x100
 
 .PHONY: flash_softdevice mergehex flash_all
 
